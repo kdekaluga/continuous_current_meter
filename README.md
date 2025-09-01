@@ -1,4 +1,4 @@
-# continuous_current_meter
+# Continuous Current Meter
 Continuous current meter for a treadmill.
 
 More details can be found at:
