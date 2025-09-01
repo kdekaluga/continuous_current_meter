@@ -168,7 +168,7 @@ mul12x12_shift_right:
 	sbci	R25, 0
 	brne	mul12x12_shift_left
 	; 130c in the worst case
-
+ 
 	ret
 
 ; ***
@@ -203,10 +203,10 @@ GetRandomBit:
 	rol		R25
 	sts		(g_rndGenState + 3), R25
 
-	// We need to XNOR bits 3 and 6 from R25
-	bst		R25, 3
+	// We need to XNOR bits 4 and 7 from R25 (since R25 was already shifted left)
+	bst		R25, 4
 	bld		R24, 0
-	bst		R25, 6
+	bst		R25, 7
 	bld		R25, 0
 	com		R25
 	andi	R25, 0x01

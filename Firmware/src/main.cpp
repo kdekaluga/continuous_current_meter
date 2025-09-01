@@ -80,7 +80,19 @@ void OnSleep()
 
     uint8_t state = g_sleepState++;
 
-    // States 0..5 (6 states), none
+    // State 0, Acquire new star coordinates
+    if (!state)
+    {
+        do
+            g_sleepX = utils::Random() & 0x7F;
+        while (g_sleepX > 124);
+        do
+            g_sleepY = utils::Random() & 0x07;
+        while (g_sleepY > 6);
+        return;
+    }
+
+    // States 1..5 (6 states), none
     if (state < 6)
         return;
 
@@ -103,14 +115,6 @@ void OnSleep()
     }
 
     g_sleepState = 0;
-
-    // Acquire new star coordinates
-    do
-        g_sleepX = utils::Random() & 0x7F;
-    while (g_sleepX > 124);
-    do
-        g_sleepY = utils::Random() & 0x07;
-    while (g_sleepY > 6);
 }
 
 int main()
@@ -166,7 +170,7 @@ int main()
         if (sleepCounter < 0)
         {
             // Exit sleep mode
-            if (adcValueMax >= minSleepCurrent)
+            if (adcValueMax >= minSleepCurrent || g_overheatState != OVERHEAT_NONE)
             {
                 display::DrawMainScreenBackground();
                 sleepCounter = 0;
@@ -181,7 +185,7 @@ int main()
             continue;
         }
 
-        if (adcValueMax < minSleepCurrent)
+        if (adcValueMax < minSleepCurrent && g_overheatState == OVERHEAT_NONE)
         {
             // Enter sleep mode
             if (++sleepCounter >= SLEEP_TIMER*50)
