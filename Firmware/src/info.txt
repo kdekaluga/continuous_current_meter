@@ -1,0 +1,9 @@
+ATtiny85 pins:
+
+1: RESET
+2: PB3, ADC3
+3: PB4, ADC2
+4: GND
+5: PB0, MOSI, SDA, AREF
+6: PB1, MISO
+7: PB2, SCK, SCL, ADC1
